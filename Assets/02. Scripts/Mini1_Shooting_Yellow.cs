@@ -7,16 +7,32 @@ public class RadialShooter : MonoBehaviour
     public GameObject bulletPrefab;
 
     [Header("발사 개수 & 간격")]
-    public int  bulletCount = 36;     // 한 바퀴에 생성할 총알 수
-    public float spawnRadius = 0f;    // 중앙에서 떨어진 거리
-    public float spawnDelay  = 0f;    // 0이면 동시 생성, >0 이면 시간차 생성
+    public int   bulletCount = 30;     // 한 바퀴에 생성할 총알 수
+    public float spawnRadius = 0f;     // 중앙에서 떨어진 거리
+    public float spawnDelay  = 0.1f;   // 0이면 동시 생성, >0 이면 시간차 생성
+
+    [Header("사이클 간격")]
+    public float cycleInterval = 6f;   // 한 사이클(360°) 후 대기할 시간
 
     void Start()
     {
-        if (spawnDelay <= 0f)
-            ShootAll();
-        else
-            StartCoroutine(ShootOverTime());
+        // 반복 코루틴 시작
+        StartCoroutine(ShootLoop());
+    }
+
+    IEnumerator ShootLoop()
+    {
+        while (true)
+        {
+            // 1) 한 사이클 발사
+            if (spawnDelay <= 0f)
+                ShootAll();
+            else
+                yield return StartCoroutine(ShootOverTime());
+
+            // 2) 한 사이클이 끝나면 대기
+            yield return new WaitForSeconds(cycleInterval);
+        }
     }
 
     void ShootAll()
@@ -40,21 +56,19 @@ public class RadialShooter : MonoBehaviour
 
     void SpawnBullet(float angleDeg)
     {
-        // 1) Up 축을 기준으로 forward 벡터를 회전시켜 방향 벡터를 구함
+        // Up 축을 기준으로 forward 벡터 회전 → 발사 방향
         Quaternion rotAroundUp = Quaternion.AngleAxis(angleDeg, transform.up);
         Vector3    dir         = rotAroundUp * transform.forward;
 
-        // 3) 본래 LookRotation으로 yaw·pitch 계산
-        Quaternion lookRot = Quaternion.LookRotation(dir, Vector3.up);
-        Vector3  angles  = lookRot.eulerAngles;
+        // 원기둥이 local Up축으로 앞으로 날아가도록 회전 조정
+        Quaternion lookRot = Quaternion.LookRotation(dir, transform.up);
+        Vector3  angles   = lookRot.eulerAngles;
+        angles.x = 90f;  // 필요시 조정
 
-        // 4) x축은 90도로 고정, y/z는 계산된 대로 사용
-        angles.x = 90f;
-
-        // 5) 인스턴스화
-        GameObject bullet = Instantiate(
+        // 생성
+        Instantiate(
             bulletPrefab,
-            transform.position,
+            transform.position + dir * spawnRadius,
             Quaternion.Euler(angles)
         );
     }

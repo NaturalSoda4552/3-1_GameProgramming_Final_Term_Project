@@ -5,8 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="5637328d-0326-4757-a143-92faeab3897b" name="변경" comment="">
-      <change afterPath="$PROJECT_DIR$/.gitignore.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/AssetStore/Adventure_Character/Textures/Man_Cloth_Down_Metallic.tga.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.GameProgrammingProject/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.GameProgrammingProject/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/01. Scenes/SampleScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/01. Scenes/SampleScene.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/02. Scripts/CameraManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/02. Scripts/CameraManager.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/02. Scripts/Mini1_Shooting_Yellow.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/02. Scripts/Mini1_Shooting_Yellow.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -103,7 +105,7 @@
       <option name="presentableId" value="Default" />
       <updated>1747635752252</updated>
       <workItem from="1747635753776" duration="17085000" />
-      <workItem from="1747667907301" duration="20020000" />
+      <workItem from="1747667907301" duration="23544000" />
     </task>
     <servers />
   </component>
