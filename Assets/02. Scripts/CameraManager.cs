@@ -1,30 +1,29 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-// 공통 카메라 모드 인터페이스
+// 카메라 모드 인터페이스
 public interface ICameraMode
 {
-    void Enter();              // 모드 진입 시 호출
-    void Exit();               // 모드 이탈 시 호출
-    void Update();             // 매 프레임마다 호출
+    void Enter();              // 모드 진입 시 실행
+    void Exit();               // 모드 이탈 시 실행
+    void Update();             // 매 프레임 호출
 }
 
-// A. 플레이어를 따라다니며 충돌 회피까지 하는 모드
+/// <summary>
+/// 플레이어를 따라다니며 충돌 회피하는 모드
+/// </summary>
 public class SphereCastFollowMode : ICameraMode
 {
     private CameraManager mgr;
-    private Transform target;
-    // 오프셋
-    private float distance;
-    private float height;
-    private float lookOffset;
-    // 부드러운 이동
-    private Vector3 velocity;
-    private float damping;
-    // 충돌 회피
-    private float sphereRadius;
-    private float buffer;
-    private LayerMask collisionMask;
+    private Transform     target;
+    private float         distance;
+    private float         height;
+    private float         lookOffset;
+    private float         damping;
+    private Vector3       velocity;
+    private float         sphereRadius;
+    private float         buffer;
+    private LayerMask     collisionMask;
 
     public SphereCastFollowMode(
         CameraManager mgr,
@@ -42,8 +41,8 @@ public class SphereCastFollowMode : ICameraMode
         this.distance      = distance;
         this.height        = height;
         this.lookOffset    = lookOffset;
-        this.velocity      = Vector3.zero;
         this.damping       = damping;
+        this.velocity      = Vector3.zero;
         this.sphereRadius  = sphereRadius;
         this.buffer        = buffer;
         this.collisionMask = collisionMask;
@@ -55,49 +54,51 @@ public class SphereCastFollowMode : ICameraMode
     public void Update()
     {
         if (target == null) return;
-        // 기본 위치 계산
+
+        // 목표 위치 계산
         Vector3 targetPos  = target.position;
         Vector3 desiredPos = targetPos
                             + (-target.forward * distance)
                             + (Vector3.up * height);
-        Vector3 dir        = (desiredPos - targetPos).normalized;
-        float   maxDist    = (desiredPos - targetPos).magnitude;
 
-        Vector3 finalPos = desiredPos;
-        // SphereCast 충돌 검사
-        if (Physics.SphereCast(targetPos, sphereRadius, dir, out RaycastHit hit, maxDist, collisionMask))
+        Vector3 dir   = (desiredPos - targetPos).normalized;
+        float   maxD  = Vector3.Distance(desiredPos, targetPos);
+        Vector3 final = desiredPos;
+
+        // 충돌 감지 후 카메라 당기기
+        if (Physics.SphereCast(targetPos, sphereRadius, dir, out RaycastHit hit, maxD, collisionMask))
         {
-            float hitDist         = Mathf.Max(hit.distance - buffer, 0f);
-            Vector3 correctedPos  = targetPos + dir * hitDist;
-            correctedPos.y        = Mathf.Max(correctedPos.y, desiredPos.y);
-            finalPos              = correctedPos;
+            float dist   = Mathf.Max(hit.distance - buffer, 0f);
+            Vector3 pos  = targetPos + dir * dist;
+            pos.y        = Mathf.Max(pos.y, desiredPos.y);
+            final        = pos;
         }
+
         // 부드러운 이동
-        mgr.MainCamera.transform.position = Vector3.SmoothDamp(
-            mgr.MainCamera.transform.position,
-            finalPos,
-            ref velocity,
-            damping);
-        // 바라보는 지점
-        Vector3 lookPoint = targetPos + Vector3.up * lookOffset;
-        mgr.MainCamera.transform.LookAt(lookPoint);
+        Transform camT = mgr.MainCamera.transform;
+        camT.position  = Vector3.SmoothDamp(camT.position, final, ref velocity, damping);
+        camT.LookAt(targetPos + Vector3.up * lookOffset);
     }
 }
 
-// B. 탑다운 모드 (예시)
+/// <summary>
+/// 특정 스테이지 루트 위에서 지정 높이 & 회전으로 고정 뷰
+/// </summary>
 public class TopDownMode : ICameraMode
 {
     private CameraManager mgr;
-    private Vector3 fixedPosition;
-    private Quaternion fixedRotation;
-    private float blendSpeed;
+    private Transform     stageRoot;
+    private float         height;
+    private Quaternion    rotation;
+    private float         blendSpeed;
 
-    public TopDownMode(CameraManager mgr, Vector3 pos, Quaternion rot, float blendSpeed)
+    public TopDownMode(CameraManager mgr, Transform stageRoot, float height, Quaternion rotation, float blendSpeed)
     {
-        this.mgr           = mgr;
-        this.fixedPosition = pos;
-        this.fixedRotation = rot;
-        this.blendSpeed    = blendSpeed;
+        this.mgr        = mgr;
+        this.stageRoot  = stageRoot;
+        this.height     = height;
+        this.rotation   = rotation;
+        this.blendSpeed = blendSpeed;
     }
 
     public void Enter() { }
@@ -105,13 +106,18 @@ public class TopDownMode : ICameraMode
 
     public void Update()
     {
-        var cam = mgr.MainCamera.transform;
-        cam.position = Vector3.Lerp(cam.position, fixedPosition, blendSpeed * Time.deltaTime);
-        cam.rotation = Quaternion.Lerp(cam.rotation, fixedRotation, blendSpeed * Time.deltaTime);
+        if (stageRoot == null) return;
+        Transform camT = mgr.MainCamera.transform;
+
+        Vector3 targetPos = stageRoot.position + Vector3.up * height;
+        camT.position     = Vector3.Lerp(camT.position, targetPos, blendSpeed * Time.deltaTime);
+        camT.rotation     = Quaternion.Lerp(camT.rotation, rotation, blendSpeed * Time.deltaTime);
     }
 }
 
-// 카메라 전환 매니저
+/// <summary>
+/// 카메라 모드를 전환하여 다양한 뷰를 지원하는 매니저
+/// </summary>
 public class CameraManager : MonoBehaviour
 {
     public static CameraManager Instance { get; private set; }
@@ -120,18 +126,26 @@ public class CameraManager : MonoBehaviour
     public Camera MainCamera;
 
     [Header("Follow 모드 설정")]
-    public float followDistance     = 10f;
-    public float followHeight       = 2f;
-    public float followLookOffset   = 2f;
-    public float followDamping      = 1f;
-    public float sphereRadius       = 0.3f;
-    public float collisionBuffer    = 0.1f;
+    public float    followDistance   = 10f;
+    public float    followHeight     = 2f;
+    public float    followLookOffset = 2f;
+    public float    followDamping    = 1f;
+    public float    sphereRadius     = 0.3f;
+    public float    collisionBuffer  = 0.1f;
     public LayerMask collisionMask;
 
-    [Header("TopDown 모드 예시")]
-    public Vector3 topDownPosition  = new Vector3(0, 12, 0);
-    public Quaternion topDownRot    = Quaternion.Euler(90f, 0f, 0f);
-    public float    topDownBlend    = 2f;
+    [Header("스테이지별 탑다운 설정")]
+    public StageConfig[] stageConfigs;
+
+    [System.Serializable]
+    public struct StageConfig
+    {
+        public string    key;         // 모드 호출 키, 예: "Mini1"
+        public Transform stageRoot;  // 스테이지 루트 오브젝트
+        public float     height;     // 카메라 높이
+        public Vector3   eulerRot;   // 카메라 회전(예: 90,0,0)
+        public float     blendSpeed; // 전환 속도
+    }
 
     private Dictionary<string, ICameraMode> modes;
     private ICameraMode currentMode;
@@ -142,40 +156,52 @@ public class CameraManager : MonoBehaviour
         {
             Instance = this;
             DontDestroyOnLoad(gameObject);
+            modes = new Dictionary<string, ICameraMode>();
         }
         else Destroy(gameObject);
-
-        modes = new Dictionary<string, ICameraMode>();
     }
 
     void Start()
     {
-        // Player Transform
-        var player = GameObject.FindWithTag("Player").transform;
-        // 모드 등록
+        // 1) 플레이어 Follow 모드 등록
+        Transform player = GameObject.FindWithTag("Player")?.transform;
         modes.Add("Start",  new SphereCastFollowMode(this, player, followDistance, followHeight, followLookOffset, followDamping, sphereRadius, collisionBuffer, collisionMask));
         modes.Add("InBomb", new SphereCastFollowMode(this, player, followDistance, followHeight, followLookOffset, followDamping, sphereRadius, collisionBuffer, collisionMask));
-        modes.Add("Mini1",  new TopDownMode(this, topDownPosition, topDownRot, topDownBlend));
-        // 추가 모드도 동일하게 등록
+
+        // 2) Inspector 설정된 스테이지 탑다운 모드 등록
+        foreach (var cfg in stageConfigs)
+        {
+            if (cfg.stageRoot == null)
+            {
+                Debug.LogWarning($"CameraManager: '{cfg.key}' 스테이지 루트가 없습니다.");
+                continue;
+            }
+            Quaternion rot = Quaternion.Euler(cfg.eulerRot);
+            modes.Add(cfg.key, new TopDownMode(this, cfg.stageRoot, cfg.height, rot, cfg.blendSpeed));
+        }
 
         // 초기 모드
         // SwitchMode("Start");
         SwitchMode("Mini1");
     }
+    
 
     void LateUpdate()
     {
         currentMode?.Update();
     }
 
+    /// <summary>
+    /// key에 매핑된 모드로 전환합니다.
+    /// </summary>
     public void SwitchMode(string key)
     {
-        if (currentMode != null) currentMode.Exit();
+        currentMode?.Exit();
         if (modes.TryGetValue(key, out var mode))
         {
             currentMode = mode;
             currentMode.Enter();
         }
-        else Debug.LogWarning($"CameraManager: 모드 '{key}' 가 없습니다.");
+        else Debug.LogWarning($"CameraManager: 모드 '{key}'가 없습니다.");
     }
 }
