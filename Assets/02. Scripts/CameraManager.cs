@@ -182,7 +182,8 @@ public class CameraManager : MonoBehaviour
 
         // 초기 모드
         // SwitchMode("Start");
-        SwitchMode("Mini1");
+        // SwitchMode("Mini1");
+        SwitchMode("Mini2");
     }
     
 
