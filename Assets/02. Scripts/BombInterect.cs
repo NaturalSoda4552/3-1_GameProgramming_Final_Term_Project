@@ -1,5 +1,5 @@
 using UnityEngine;
-using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class BombInteract : MonoBehaviour
 {
@@ -7,7 +7,8 @@ public class BombInteract : MonoBehaviour
     public Transform player;             // 플레이어 Transform
 
     [Header("상호작용 UI")]
-    public GameObject interactUI;        // Canvas 위에 만든 '왼클릭: Interact' 텍스트나 이미지
+    public GameObject interactUI;        // 'F키: Interact' 같은 안내
+    public Text       timerText;         // 우측 상단에 띄울 타이머 UI
 
     [Header("상호작용 거리")]
     public float interactDistance = 3f;  // 이 거리 이내일 때 UI 노출
@@ -17,45 +18,42 @@ public class BombInteract : MonoBehaviour
 
     void Start()
     {
-        // 시작 시 UI는 비활성화
-        if (interactUI != null) 
-            interactUI.SetActive(false);
+        if (interactUI   != null) interactUI.SetActive(false);
+        if (timerText    != null) timerText.gameObject.SetActive(false);
     }
 
     void Update()
     {
         if (player == null || interactUI == null || destinationPoint == null)
-            return; // 필요한 참조가 없으면 아무것도 하지 않음
-        
-        // 플레이어와 폭탄 간 거리 계산
-        float dist = Vector3.Distance(player.position, transform.position);
-        // Debug.Log($"[BombInteract] dist = {dist:F2}, threshold = {interactDistance:F2}");
+            return;
 
+        float dist = Vector3.Distance(player.position, transform.position);
         if (dist <= interactDistance)
         {
-            
-            // 거리가 충분히 가까우면 UI 활성화
-            if (!interactUI.activeSelf) 
+            // 가까워지면 상호작용 안내 표시
+            if (!interactUI.activeSelf)
                 interactUI.SetActive(true);
-            
 
-            // 왼쪽 마우스 버튼 클릭 감지
-            if (Input.GetMouseButtonDown(0))
+            // F키로 상호작용
+            if (Input.GetKeyDown(KeyCode.F))
             {
-                // 즉시 지정 지점으로 이동 (텔레포트)
+                // 1) 플레이어를 폭탄 내부로 이동
                 player.position = destinationPoint.position;
+
+                // 2) 섹션 전환
                 SceneLoader.Instance.ActivateSection("Scene2-InBomb");
                 SceneLoader.Instance.DeactivateSection("Scene1-Start");
 
-                // UI 비활성화
+                // 3) UI 갱신: 안내 UI 끄고 타이머 켬
                 interactUI.SetActive(false);
             }
         }
         else
         {
-            // 거리가 멀어지면 UI 비활성화
             if (interactUI.activeSelf)
                 interactUI.SetActive(false);
         }
+
+        
     }
 }

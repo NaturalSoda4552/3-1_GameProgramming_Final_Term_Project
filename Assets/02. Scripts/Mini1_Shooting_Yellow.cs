@@ -7,30 +7,47 @@ public class RadialShooter : MonoBehaviour
     public GameObject bulletPrefab;
 
     [Header("발사 개수 & 간격")]
-    public int   bulletCount = 30;     // 한 바퀴에 생성할 총알 수
-    public float spawnRadius = 0f;     // 중앙에서 떨어진 거리
-    public float spawnDelay  = 0.1f;   // 0이면 동시 생성, >0 이면 시간차 생성
+    public int   bulletCount    = 30;
+    public float spawnRadius    = 0f;
+    public float spawnDelay     = 0f;    // 원한다면 0.1f 등으로 시간차 발사
 
-    [Header("사이클 간격")]
-    public float cycleInterval = 6f;   // 한 사이클(360°) 후 대기할 시간
+    [Header("시작 대기 & 사이클 간격 (초)")]
+    [Tooltip("게임 시작 후 처음 발사까지 대기 시간")]
+    public float initialDelay   = 3f;
+    [Tooltip("한 사이클(전부 발사) 후 다시 대기할 시간")]
+    public float cycleInterval  = 3f;
 
-    void Start()
+    private bool hasStarted;
+    private Transform sectionRoot;
+
+    /// <summary>BombRoom_Manager에서 호출하여 발사를 시작합니다.</summary>
+    public void StartGame(string sectionKey)
     {
-        // 반복 코루틴 시작
+        if (hasStarted) return;
+        hasStarted = true;
+        
+        // 이 섹션의 루트 가져오기
+        var go = SceneLoader.Instance.GetSectionObject(sectionKey);
+        sectionRoot = go != null ? go.transform : null;
+        
         StartCoroutine(ShootLoop());
     }
 
     IEnumerator ShootLoop()
     {
+        // 1) 최초 대기
+        yield return new WaitForSeconds(initialDelay);
+
+        // 2) 발사 루프
         while (true)
         {
-            // 1) 한 사이클 발사
+            // 순간 발사 vs 시간차 발사
             if (spawnDelay <= 0f)
                 ShootAll();
             else
                 yield return StartCoroutine(ShootOverTime());
 
-            // 2) 한 사이클이 끝나면 대기
+            // 3) 다음 발사까지 대기
             yield return new WaitForSeconds(cycleInterval);
         }
     }
@@ -56,20 +73,19 @@ public class RadialShooter : MonoBehaviour
 
     void SpawnBullet(float angleDeg)
     {
-        // Up 축을 기준으로 forward 벡터 회전 → 발사 방향
         Quaternion rotAroundUp = Quaternion.AngleAxis(angleDeg, transform.up);
         Vector3    dir         = rotAroundUp * transform.forward;
+        Quaternion lookRot     = Quaternion.LookRotation(dir, transform.up);
+        Vector3    angles      = lookRot.eulerAngles;
+        angles.x = 90f;
 
-        // 원기둥이 local Up축으로 앞으로 날아가도록 회전 조정
-        Quaternion lookRot = Quaternion.LookRotation(dir, transform.up);
-        Vector3  angles   = lookRot.eulerAngles;
-        angles.x = 90f;  // 필요시 조정
-
-        // 생성
-        Instantiate(
+        var bullet = Instantiate(
             bulletPrefab,
             transform.position + dir * spawnRadius,
             Quaternion.Euler(angles)
         );
+        
+        if (sectionRoot != null)
+            bullet.transform.SetParent(sectionRoot, true);
     }
 }

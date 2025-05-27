@@ -7,7 +7,12 @@
     <list default="true" id="5637328d-0326-4757-a143-92faeab3897b" name="변경" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.GameProgrammingProject/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.GameProgrammingProject/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/01. Scenes/SampleScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/01. Scenes/SampleScene.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/02. Scripts/BombInterect.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/02. Scripts/BombInterect.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/02. Scripts/CameraManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/02. Scripts/CameraManager.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/02. Scripts/Mini1_Shooting_Red.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/02. Scripts/Mini1_Shooting_Red.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/02. Scripts/Mini1_Shooting_Yellow.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/02. Scripts/Mini1_Shooting_Yellow.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/02. Scripts/SceneLoader.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/02. Scripts/SceneLoader.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProjectSettings/TagManager.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/TagManager.asset" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -24,6 +29,7 @@
     <setting file="file://$USER_HOME$/Downloads/02.Scripts/PlayerCtrl.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$USER_HOME$/Downloads/02.Scripts/RemoveBullet.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/02. Scripts/BombInterect.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/02. Scripts/BombRoom_Manager.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/02. Scripts/Mini1_Shooting_Red.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/02. Scripts/Mini1_Shooting_Yellow.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/02. Scripts/Mini2_Detecting.cs" root0="FORCE_HIGHLIGHTING" />
@@ -32,9 +38,15 @@
     <setting file="file://$PROJECT_DIR$/Assets/02. Scripts/Mini4_Manager.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/02. Scripts/Mini4_Ternimal.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/02. Scripts/Mini4_WireManager.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/02. Scripts/Mini5.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/02. Scripts/Mini6.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/02. Scripts/Mini6_GameSet.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/02. Scripts/MiniGameTimeoutHandler.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/02. Scripts/MiniTimerManager.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/02. Scripts/PlayerCtrl.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/02. Scripts/RemoveBullet.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/02. Scripts/SceneLoader.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/02. Scripts/TimerManager.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.behavior@fe41d2b9d6fa/Runtime/Execution/Nodes/Composites/BranchingConditionComposite.cs" root0="SKIP_HIGHLIGHTING" />
   </component>
   <component name="ProjectColorInfo">{
@@ -112,7 +124,8 @@
       <updated>1747635752252</updated>
       <workItem from="1747635753776" duration="17085000" />
       <workItem from="1747667907301" duration="43728000" />
-      <workItem from="1748089419119" duration="8931000" />
+      <workItem from="1748089419119" duration="26243000" />
+      <workItem from="1748274563189" duration="18196000" />
     </task>
     <servers />
   </component>

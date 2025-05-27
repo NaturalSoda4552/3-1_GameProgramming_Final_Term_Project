@@ -7,6 +7,7 @@ TagManager:
   - WALL
   - S2_Mini1
   - BULLET
+  - PLAYERINBOMB
   layers:
   - Default
   - TransparentFX

@@ -2,44 +2,39 @@ using UnityEngine;
 
 public class RedShooter : MonoBehaviour
 {
-    [Header("발사 대상(플레이어)")]
-    public Transform playerTr;                  
+    public Transform playerTr;  
+    public GameObject bulletPrefab;
+    public float     fireInterval = 1f;
 
-    [Header("발사체 설정")]
-    public GameObject bulletPrefab;       
-    public float     fireInterval    = 1.0f;  
+    private float fireTimer;
+    private bool  gameStarted;
+    private Transform sectionRoot;
 
-    private float fireTimer = 0f;
+    public void StartGame(string sectionKey)
+    {
+        if (gameStarted) return;
+        gameStarted = true;
+        fireTimer = 0f;
+        // 발사체를 하위에 두기 위한 섹션 루트 캐싱
+        var go = SceneLoader.Instance.GetSectionObject(sectionKey);
+        sectionRoot = go != null ? go.transform : null;
+    }
 
     void Update()
     {
-        if (playerTr == null || bulletPrefab == null) 
-            return;
-
-        // 1) 타이머 갱신
+        if (!gameStarted) return;
         fireTimer += Time.deltaTime;
-        if (fireTimer < fireInterval) 
-            return;
+        if (fireTimer < fireInterval) return;
         fireTimer = 0f;
 
-        // 2) 플레이어 방향 계산
         Vector3 dir = (playerTr.position - transform.position).normalized;
+        var look = Quaternion.LookRotation(dir, Vector3.up);
+        look = Quaternion.Euler(90, look.eulerAngles.y, look.eulerAngles.z);
 
-        // 3) 본래 LookRotation으로 yaw·pitch 계산
-        Quaternion lookRot = Quaternion.LookRotation(dir, Vector3.up);
-        Vector3  angles  = lookRot.eulerAngles;
-
-        // 4) x축은 90도로 고정, y/z는 계산된 대로 사용
-        angles.x = 90f;
-
-        // 5) 인스턴스화
-        GameObject bullet = Instantiate(
-            bulletPrefab,
-            transform.position,
-            Quaternion.Euler(angles)
-        );
-
-        // 6) 자동 파괴
+        // Instantiate & parent
+        var bullet = Instantiate(bulletPrefab, transform.position, look);
+        if (sectionRoot != null)
+            bullet.transform.SetParent(sectionRoot, true);
         Destroy(bullet, 20f);
     }
 }
