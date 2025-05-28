@@ -21,8 +21,8 @@ public class Mini3_Shooting : MonoBehaviour
     {
         if (bulletPrefab == null || movementAreaCenter == null) 
             return;
-
-        if (!Input.GetButtonDown("Fire1")) 
+        
+        if (!Input.GetKeyDown(KeyCode.Space))
             return;
 
         Vector3 pos = transform.position;
@@ -36,7 +36,7 @@ public class Mini3_Shooting : MonoBehaviour
         if (!inArea) return;
 
         // <- 여기만 fixedY+1f 로 변경
-        Vector3 spawnPos = new Vector3(pos.x, fixedY + 1f, pos.z);
+        Vector3 spawnPos = new Vector3(pos.x, 1f, pos.z);
         GameObject b = Instantiate(bulletPrefab, spawnPos, Quaternion.identity);
 
         var rb = b.GetComponent<Rigidbody>();

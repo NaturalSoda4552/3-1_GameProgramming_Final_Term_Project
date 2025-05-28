@@ -4,6 +4,13 @@ using UnityEngine;
 
 public class Mini6_Manager : MonoBehaviour
 {
+    [Header("플레이어 설정")]
+    public GameObject mainPlayer;    // 3인칭 플레이어
+    public GameObject miniPlayer;    // 미니게임 전용 플레이어 prefab
+
+    [Header("SceneLoader 키")]
+    public string sectionKey;        // 이 매니저가 속한 섹션 키
+
     [Header("Child GameSets")]
     public List<Mini6_GameSet> gameSets = new List<Mini6_GameSet>();
 
@@ -13,10 +20,20 @@ public class Mini6_Manager : MonoBehaviour
     public KeyCode[] possibleKeys = { KeyCode.W, KeyCode.A, KeyCode.S, KeyCode.D };
 
     private int currentIndex = 0;
+    private bool isRunning   = false;
 
-    void Start()
+    /// <summary>
+    /// 외부에서 미니게임을 시작할 때 호출합니다.
+    /// </summary>
+    public void StartGame(string sectionKey)
     {
-        // 자식 GameSet 수집
+        this.sectionKey = sectionKey;
+
+        // ① 플레이어 전환: main 끄고 mini 켜기
+        if (mainPlayer != null) mainPlayer.SetActive(false);
+        if (miniPlayer != null) miniPlayer.SetActive(true);
+
+        // ② 자식 GameSet 수집
         gameSets.Clear();
         foreach (Transform child in transform)
         {
@@ -28,24 +45,30 @@ public class Mini6_Manager : MonoBehaviour
         if (gameSets.Count == 0)
         {
             Debug.LogWarning("[Mini6_Manager] No Mini6_GameSet found under manager.");
+            OnAllCleared();
             return;
         }
 
-        // 첫 세트 바로 시작
+        // ③ 초기화 및 시작
+        currentIndex = 0;
+        isRunning    = true;
         StartCoroutine(DelayedStartNextSet());
     }
 
     private IEnumerator DelayedStartNextSet()
     {
-        yield return null;  // 한 프레임 대기
+        // 프레임 보장 후 바로 첫 세트 시작
+        yield return null;
         StartNextSet();
     }
 
     private void StartNextSet()
     {
+        if (!isRunning) return;
+
         if (currentIndex >= gameSets.Count)
         {
-            Debug.Log("🎉 Mini6 All Sets Cleared! 🎉");
+            OnAllCleared();
             return;
         }
 
@@ -60,7 +83,6 @@ public class Mini6_Manager : MonoBehaviour
         if (success)
             currentIndex++;
 
-        // 0.5초 후에 다음 세트 또는 재시도
         StartCoroutine(NextSetWithDelay());
     }
 
@@ -68,5 +90,30 @@ public class Mini6_Manager : MonoBehaviour
     {
         yield return new WaitForSeconds(0.5f);
         StartNextSet();
+    }
+
+    private void OnAllCleared()
+    {
+        isRunning = false;
+        Debug.Log("🎉 Mini6 All Sets Cleared! 🎉");
+
+        // 1) 플레이어 복귀 및 미니플레이어 비활성화
+        if (mainPlayer != null) mainPlayer.SetActive(true);
+        if (miniPlayer != null) miniPlayer.SetActive(false);
+
+        // 2) 카메라 복원
+        CameraManager.Instance.SwitchMode("Start");
+
+        // 3) 이 섹션 내부 정리 & 비활성화
+        var sectionObj = SceneLoader.Instance.GetSectionObject(sectionKey);
+        if (sectionObj != null)
+        {
+            foreach (Transform child in sectionObj.transform)
+                Destroy(child.gameObject);
+            SceneLoader.Instance.DeactivateSection(sectionKey);
+        }
+
+        // 4) 전체 미니게임 완료 카운트 증가
+        TimerandCountManager.Instance.IncrementCount();
     }
 }

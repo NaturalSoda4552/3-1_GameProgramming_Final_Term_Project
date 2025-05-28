@@ -7,11 +7,21 @@
     <list default="true" id="5637328d-0326-4757-a143-92faeab3897b" name="변경" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.GameProgrammingProject/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.GameProgrammingProject/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/01. Scenes/SampleScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/01. Scenes/SampleScene.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/02. Scripts/BombInterect.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/02. Scripts/BombInterect.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/02. Scripts/CameraManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/02. Scripts/CameraManager.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/02. Scripts/Mini1_Shooting_Red.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/02. Scripts/Mini1_Shooting_Red.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/02. Scripts/Mini1_Shooting_Yellow.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/02. Scripts/Mini1_Shooting_Yellow.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/02. Scripts/SceneLoader.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/02. Scripts/SceneLoader.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/02. Scripts/BombRoom_Manager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/02. Scripts/BombRoom_Manager.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/02. Scripts/Mini2_Detecting.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/02. Scripts/Mini2_Detecting.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/02. Scripts/Mini3_Bullet.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/02. Scripts/Mini3_Bullet.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/02. Scripts/Mini3_Enemy.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/02. Scripts/Mini3_Enemy.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/02. Scripts/Mini3_Manager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/02. Scripts/Mini3_Manager.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/02. Scripts/Mini3_Shooting.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/02. Scripts/Mini3_Shooting.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/02. Scripts/Mini4_Manager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/02. Scripts/Mini4_Manager.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/02. Scripts/Mini5.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/02. Scripts/Mini5.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/02. Scripts/Mini6.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/02. Scripts/Mini6.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/02. Scripts/MiniGameTimeoutHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/02. Scripts/MiniGameTimeoutHandler.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/03. Prefabs/Ball.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/03. Prefabs/Ball.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/03. Prefabs/bullet.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/03. Prefabs/bullet.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/08. Controller/Patrol.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/08. Controller/Patrol.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/manifest.json" beforeDir="false" afterPath="$PROJECT_DIR$/Packages/manifest.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/packages-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/Packages/packages-lock.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ProjectSettings/TagManager.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/TagManager.asset" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -33,12 +43,14 @@
     <setting file="file://$PROJECT_DIR$/Assets/02. Scripts/Mini1_Shooting_Red.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/02. Scripts/Mini1_Shooting_Yellow.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/02. Scripts/Mini2_Detecting.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/02. Scripts/Mini2_Manager.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/02. Scripts/Mini3_Bullet.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/02. Scripts/Mini3_Enemy.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/02. Scripts/Mini4_Manager.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/02. Scripts/Mini4_Ternimal.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/02. Scripts/Mini4_WireManager.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/02. Scripts/Mini5.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/02. Scripts/Mini5_Ball.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/02. Scripts/Mini6.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/02. Scripts/Mini6_GameSet.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/02. Scripts/MiniGameTimeoutHandler.cs" root0="FORCE_HIGHLIGHTING" />
@@ -47,6 +59,12 @@
     <setting file="file://$PROJECT_DIR$/Assets/02. Scripts/RemoveBullet.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/02. Scripts/SceneLoader.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/02. Scripts/TimerManager.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/ChasingAction.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/IsActiveCondition.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/IsDetectedCondition.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/NewPatrolAction.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.behavior@fe41d2b9d6fa/Runtime/Execution/Nodes/Actions/Navigation/NavigateToTargetAction.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.behavior@fe41d2b9d6fa/Runtime/Execution/Nodes/Actions/Navigation/PatrolAction.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.behavior@fe41d2b9d6fa/Runtime/Execution/Nodes/Composites/BranchingConditionComposite.cs" root0="SKIP_HIGHLIGHTING" />
   </component>
   <component name="ProjectColorInfo">{
@@ -125,7 +143,7 @@
       <workItem from="1747635753776" duration="17085000" />
       <workItem from="1747667907301" duration="43728000" />
       <workItem from="1748089419119" duration="26243000" />
-      <workItem from="1748274563189" duration="18196000" />
+      <workItem from="1748274563189" duration="50895000" />
     </task>
     <servers />
   </component>

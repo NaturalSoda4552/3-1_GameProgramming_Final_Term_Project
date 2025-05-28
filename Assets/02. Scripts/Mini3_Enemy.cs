@@ -43,7 +43,7 @@ public class Mini3_Enemy : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         // 총알에 부딪히면
-        if (other.CompareTag("BULLET"))
+        if (other.CompareTag("BULLET_Mini3"))
         {
             // 총알 제거
             Destroy(other.gameObject);

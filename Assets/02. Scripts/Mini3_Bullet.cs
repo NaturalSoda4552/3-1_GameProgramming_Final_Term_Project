@@ -8,5 +8,7 @@ public class Mini3_Bullet : MonoBehaviour
     void Update()
     {
         transform.position += Vector3.forward * speed * Time.deltaTime;
+        
+        Destroy(this, 10f);
     }
 }

@@ -8,6 +8,9 @@ TagManager:
   - S2_Mini1
   - BULLET
   - PLAYERINBOMB
+  - BULLET_Mini3
+  - GoalZone
+  - Ball
   layers:
   - Default
   - TransparentFX

@@ -28,7 +28,10 @@ public class MiniGameTimeoutHandler : MonoBehaviour
 
     private void HandleTimeout()
     {
-        Debug.Log("check!");
+        // Debug.Log("time out!");
+        var mgr = FindObjectOfType<BombRoom_Manager>();
+        if (mgr != null)
+            mgr.mini2_active = false;
 
         // 1) 플레이어 복귀 및 프리팹 비활성화
         if (player != null)       player.SetActive(true);
